@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Button, PokemonCard, ErrorBlock } from "./../components";
+import { PokemonCard, ErrorBlock, PaginationBlock } from "./../components";
 import { ClassNames } from "@44north/classnames";
 import { useQuery, gql } from "@apollo/client";
 import type { IPokemonRecord } from "./../types";
 
 const POKEMONQUERY = gql`
     query GetPokemon($pageNo: Int, $itemsPerPage: Int) {
+        countPokemon
         listPokemon(pageNo: $pageNo, itemsPerPage: $itemsPerPage) {
             id
             name
@@ -37,15 +38,15 @@ function Homepage() {
     const [itemsPerPage, setItemsPerPage] = useState<number>(10);
     const [pageNo, setPageNo] = useState<number>(1);
 
-    const { data, loading, error, refetch } = useQuery<{ listPokemon: IPokemonRecord[] }>(
-        POKEMONQUERY,
-        {
-            variables: {
-                pageNo,
-                itemsPerPage
-            }
+    const { data, loading, error, refetch } = useQuery<{
+        countPokemon: number;
+        listPokemon: IPokemonRecord[];
+    }>(POKEMONQUERY, {
+        variables: {
+            pageNo,
+            itemsPerPage
         }
-    );
+    });
 
     useEffect(() => {
         refetch({
@@ -61,20 +62,23 @@ function Homepage() {
             {loading ? (
                 <p>I am Loading...</p>
             ) : (
-                <ul>
-                    {data.listPokemon.map((record) => (
-                        <li key={record.id}>
-                            <PokemonCard data={record} />
-                        </li>
-                    ))}
-                </ul>
+                <>
+                    <ul>
+                        {data.listPokemon.map((record) => (
+                            <li key={record.id}>
+                                <PokemonCard data={record} />
+                            </li>
+                        ))}
+                    </ul>
+                    <PaginationBlock
+                        onPageClick={(pageNo) => {
+                            setPageNo(pageNo);
+                        }}
+                        currentPageNo={pageNo}
+                        totalPageNo={Math.ceil(data.countPokemon / itemsPerPage)}
+                    />
+                </>
             )}
-
-            <div className={new ClassNames(["flex", "gap-2", "items-center"]).list()}>
-                <Button onClick={() => setPageNo(pageNo - 1)}>Previous Page</Button>
-                <p>{pageNo}</p>
-                <Button onClick={() => setPageNo(pageNo + 1)}>Next Page</Button>
-            </div>
         </div>
     );
 }
