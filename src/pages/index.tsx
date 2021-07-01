@@ -12,6 +12,10 @@ const POKEMONQUERY = gql`
             name
             height
             weight
+            stats {
+                name
+                base_stat
+            }
             species {
                 habitat {
                     name
@@ -35,7 +39,7 @@ const POKEMONQUERY = gql`
 `;
 
 function Homepage() {
-    const [itemsPerPage, setItemsPerPage] = useState<number>(10);
+    const [itemsPerPage, setItemsPerPage] = useState<number>(12);
     const [pageNo, setPageNo] = useState<number>(1);
 
     const { data, loading, error, refetch } = useQuery<{
@@ -56,14 +60,14 @@ function Homepage() {
     }, [pageNo, itemsPerPage]);
 
     return (
-        <div className={new ClassNames(["flex", "flex-col", "gap-4"]).list()}>
+        <div className={new ClassNames(["flex", "flex-col", "gap-6"]).list()}>
             {error && <ErrorBlock error={error} />}
 
             {loading ? (
                 <p>I am Loading...</p>
             ) : (
                 <>
-                    <ul>
+                    <ul className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
                         {data.listPokemon.map((record) => (
                             <li key={record.id}>
                                 <PokemonCard data={record} />
