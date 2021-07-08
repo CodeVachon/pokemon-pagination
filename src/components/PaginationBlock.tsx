@@ -48,7 +48,7 @@ const PaginationBlock: FC<{
                     First
                 </Button>
                 <Button
-                    className={new ClassNames(["rounded-l-none"]).list()}
+                    className={new ClassNames(["rounded sm:rounded-l-none"]).list()}
                     disabled={currentPageNo <= 1}
                     onClick={() => {
                         onPageClick(currentPageNo - 1);

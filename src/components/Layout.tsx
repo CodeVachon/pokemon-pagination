@@ -16,8 +16,12 @@ const Layout: FC<{ title?: string }> = ({ children, title = "The Page!" }) => {
                     "min-h-screen",
                     "grid",
                     "grid-cols-1",
-                    "grid-rows-layout"
+                    "grid-rows-layout",
+                    "gap-4",
+                    "bg-white dark:bg-gray-700",
+                    "text-black dark:text-gray-100"
                 ]).list()}
+                style={{ minWidth: 350 }}
             >
                 <header
                     className={new ClassNames([
@@ -48,16 +52,7 @@ const Layout: FC<{ title?: string }> = ({ children, title = "The Page!" }) => {
                         </Button>
                     </div>
                 </header>
-                <section
-                    className={new ClassNames([
-                        "bg-white dark:bg-gray-700",
-                        "text-black dark:text-gray-100"
-                    ])
-                        .add(cellPadding)
-                        .list()}
-                >
-                    {children}
-                </section>
+                <section className={new ClassNames(cellPadding).list()}>{children}</section>
                 <footer
                     className={new ClassNames([
                         "bg-gray-200 dark:bg-gray-800",

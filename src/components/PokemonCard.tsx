@@ -9,7 +9,8 @@ const PokemonCard: FC<{ data: IPokemonRecord; className?: string | ClassNames }>
 }) => {
     const borderClasses = new ClassNames(["border-4 border-yellow-500"]);
     const cardClasses = new ClassNames([
-        "p-4",
+        "transition-all",
+        "p-4 sm:p-2 md:p-4 xl:p-6",
         "rounded",
         "text-black",
         "grid grid-cols-1 gap-4",
@@ -61,13 +62,16 @@ const PokemonCard: FC<{ data: IPokemonRecord; className?: string | ClassNames }>
         <div className={cardClasses.list()}>
             <header className="capitalize flex justify-between items-end">
                 <p className="font-bold text-2xl">{data.name}</p>
-                <p>
-                    <span className="font-bold">HP</span>: {hp}
+                <p className="flex items-center gap-1">
+                    <span className="font-bold">HP:</span>
+                    <span className="bg-yellow-500 rounded-full w-8 h-8 font-bold text-sm inline-flex justify-center items-center">
+                        {hp}
+                    </span>
                 </p>
             </header>
             <div>
                 <div
-                    className={new ClassNames(["bg-opacity-50 bg-white rounded"])
+                    className={new ClassNames(["bg-opacity-50 bg-white rounded", "shadow-inner"])
                         .add(borderClasses)
                         .list()}
                 >
@@ -83,9 +87,9 @@ const PokemonCard: FC<{ data: IPokemonRecord; className?: string | ClassNames }>
             </div>
             <div
                 className={new ClassNames([
-                    "bg-opacity-50 bg-white rounded",
+                    "bg-opacity-50 bg-white rounded text-black",
                     "p-4",
-                    "grid grid-cols-1 gap-2"
+                    "grid grid-cols-1 gap-1"
                 ]).list()}
             >
                 {[
