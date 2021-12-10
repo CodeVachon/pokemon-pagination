@@ -70,7 +70,7 @@ function Homepage() {
                 <ErrorBlock error={new Error("No Records Found")} />
             ) : (
                 <>
-                    <ul className="grid transition-all grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-8">
+                    <ul className="grid transition-all grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-8">
                         {data.listPokemon.map((record) => (
                             <li key={record.id}>
                                 <PokemonCard data={record} />
@@ -94,7 +94,10 @@ function Homepage() {
                         <div>
                             <SelectBox
                                 value={itemsPerPage}
-                                onChange={(value) => setItemsPerPage(Number(value))}
+                                onChange={(value) => {
+                                    setPageNo(1);
+                                    setItemsPerPage(Number(value));
+                                }}
                                 options={[1, 3, 6, 9, 12, 24, 48]}
                             />
                         </div>

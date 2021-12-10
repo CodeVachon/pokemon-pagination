@@ -72,10 +72,16 @@ const PokemonCard: FC<{ data: IPokemonRecord; className?: string | ClassNames }>
             <div>
                 <div
                     className={new ClassNames(["bg-opacity-50 bg-white rounded", "shadow-inner"])
+                        .add(["aspect-w-1 aspect-h-1"])
                         .add(borderClasses)
                         .list()}
                 >
-                    <img src={data.sprites.official_artwork_front_default} className="mx-auto" />
+                    <img
+                        src={data.sprites.official_artwork_front_default}
+                        className={new ClassNames("mx-auto")
+                            .add("w-full h-full object-center object-cover ")
+                            .list()}
+                    />
                 </div>
                 <ul className="flex bg-yellow-500 text-black mx-4 px-4 py-2 items-center justify-evenly rounded-b">
                     {data.types.map((type) => (
