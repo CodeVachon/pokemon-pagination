@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { PokemonCard, ErrorBlock, PaginationBlock } from "./../components";
+import { PokemonCard, ErrorBlock, PaginationBlock, SelectBox } from "./../components";
 import { ClassNames } from "@44north/classnames";
 import { useQuery, gql } from "@apollo/client";
+
 import type { IPokemonRecord } from "./../types";
 
-const POKEMONQUERY = gql`
+const POKEMON_QUERY = gql`
     query GetPokemon($pageNo: Int, $itemsPerPage: Int) {
         countPokemon
         listPokemon(pageNo: $pageNo, itemsPerPage: $itemsPerPage) {
@@ -45,7 +46,7 @@ function Homepage() {
     const { data, loading, error, refetch } = useQuery<{
         countPokemon: number;
         listPokemon: IPokemonRecord[];
-    }>(POKEMONQUERY, {
+    }>(POKEMON_QUERY, {
         variables: {
             pageNo,
             itemsPerPage
@@ -60,11 +61,13 @@ function Homepage() {
     }, [pageNo, itemsPerPage]);
 
     return (
-        <div className={new ClassNames(["flex", "flex-col", "gap-6"]).list()}>
+        <div className={new ClassNames(["flex", "flex-col", "space-y-4"]).list()}>
             {error && <ErrorBlock error={error} />}
 
             {loading ? (
                 <p>I am Loading...</p>
+            ) : (data?.listPokemon || []).length === 0 ? (
+                <ErrorBlock error={new Error("No Records Found")} />
             ) : (
                 <>
                     <ul className="grid transition-all grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-8">
@@ -74,13 +77,28 @@ function Homepage() {
                             </li>
                         ))}
                     </ul>
-                    <PaginationBlock
-                        onPageClick={(pageNo) => {
-                            setPageNo(pageNo);
-                        }}
-                        currentPageNo={pageNo}
-                        totalPageNo={Math.ceil(data.countPokemon / itemsPerPage)}
-                    />
+                    <div
+                        className={new ClassNames([
+                            "flex",
+                            "justify-between items-center",
+                            "space-x-8"
+                        ]).list()}
+                    >
+                        <PaginationBlock
+                            onPageClick={(pageNo) => {
+                                setPageNo(pageNo);
+                            }}
+                            currentPageNo={pageNo}
+                            totalPageNo={Math.ceil(data.countPokemon / itemsPerPage)}
+                        />
+                        <div>
+                            <SelectBox
+                                value={itemsPerPage}
+                                onChange={(value) => setItemsPerPage(Number(value))}
+                                options={[1, 3, 6, 9, 12, 24, 48]}
+                            />
+                        </div>
+                    </div>
                 </>
             )}
         </div>

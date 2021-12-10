@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import Head from "next/head";
 import { ClassNames } from "@44north/classnames";
 import { Button } from "./Button";
+import { Container } from "./Container";
 
 const Layout: FC<{ title?: string }> = ({ children, title = "The Page!" }) => {
     const cellPadding = new ClassNames(["py-2", "px-4"]);
@@ -29,30 +30,42 @@ const Layout: FC<{ title?: string }> = ({ children, title = "The Page!" }) => {
                         "text-gray-900 dark:text-gray-200"
                     ])
                         .add(cellPadding)
-                        .add(["flex", "justify-between", "items-center"])
                         .list()}
                 >
-                    <h1
-                        className={new ClassNames([
-                            "text-4xl",
-                            "font-bold",
-                            "font-serif",
-                            "my-4"
-                        ]).list()}
+                    <Container
+                        className={new ClassNames(["flex", "justify-between", "items-center"])}
                     >
-                        {title}
-                    </h1>
-                    <div>
-                        <Button
-                            onClick={() => {
-                                window.open("/api/graphql", "_blank");
-                            }}
+                        <h1
+                            className={new ClassNames([
+                                "text-4xl",
+                                "font-bold",
+                                "font-serif",
+                                "my-4"
+                            ]).list()}
                         >
-                            GraphQL
-                        </Button>
-                    </div>
+                            {title}
+                        </h1>
+                        <div>
+                            <Button
+                                onClick={() => {
+                                    window.open("/api/graphql", "_blank");
+                                }}
+                            >
+                                GraphQL
+                            </Button>
+                        </div>
+                    </Container>
                 </header>
-                <section className={new ClassNames(cellPadding).list()}>{children}</section>
+                <section
+                    className={new ClassNames([
+                        "bg-white dark:bg-gray-700",
+                        "text-black dark:text-gray-100"
+                    ])
+                        .add(cellPadding)
+                        .list()}
+                >
+                    <Container>{children}</Container>
+                </section>
                 <footer
                     className={new ClassNames([
                         "bg-gray-200 dark:bg-gray-800",
@@ -61,20 +74,22 @@ const Layout: FC<{ title?: string }> = ({ children, title = "The Page!" }) => {
                         .add(cellPadding)
                         .list()}
                 >
-                    <p
-                        className={new ClassNames([
-                            "font-serif",
-                            "text-sm",
-                            "text-center",
-                            "text-gray-500"
-                        ]).list()}
-                    >
-                        &copy;{" "}
-                        <a href="https://44north.dev" target="_blank">
-                            44North.dev
-                        </a>{" "}
-                        {new Date().getFullYear()}
-                    </p>
+                    <Container>
+                        <p
+                            className={new ClassNames([
+                                "font-serif",
+                                "text-sm",
+                                "text-center",
+                                "text-gray-500"
+                            ]).list()}
+                        >
+                            &copy;{" "}
+                            <a href="https://44north.dev" target="_blank">
+                                44North.dev
+                            </a>{" "}
+                            {new Date().getFullYear()}
+                        </p>
+                    </Container>
                 </footer>
             </main>
         </>
