@@ -3,6 +3,10 @@ export interface IPokemonRecord {
     name: string;
     height: number;
     weight: number;
+    stats: {
+        name: string;
+        base_stat: number;
+    }[];
     species: {
         habitat: {
             name: string;
@@ -14,7 +18,7 @@ export interface IPokemonRecord {
     sprites: {
         official_artwork_front_default: string;
     };
-    type: {
+    types: {
         name: string;
     }[];
     abilities: {

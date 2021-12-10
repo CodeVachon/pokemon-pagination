@@ -17,8 +17,12 @@ const Layout: FC<{ title?: string }> = ({ children, title = "The Page!" }) => {
                     "min-h-screen",
                     "grid",
                     "grid-cols-1",
-                    "grid-rows-layout"
+                    "grid-rows-layout",
+                    "gap-4",
+                    "bg-white dark:bg-gray-700",
+                    "text-black dark:text-gray-100"
                 ]).list()}
+                style={{ minWidth: 350 }}
             >
                 <header
                     className={new ClassNames([
