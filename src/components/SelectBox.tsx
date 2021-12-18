@@ -47,7 +47,7 @@ const SelectBox: FC<{
 
     return (
         <Listbox value={currentValue} onChange={onChange}>
-            <div className={new ClassNames("relative").list()} ref={thisInput}>
+            <div className={new ClassNames("relative").add(className).list()} ref={thisInput}>
                 <Listbox.Button
                     className={new ClassNames([
                         "relative w-full py-2 pl-3 pr-10 text-left bg-white text-gray-900 rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm"

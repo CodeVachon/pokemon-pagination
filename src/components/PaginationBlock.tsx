@@ -35,12 +35,23 @@ const PaginationBlock: FC<{
         }
     }
     const pageNumbers = range(startNo, endNo);
+    const maxCurrentPageNo = currentPageNo === 1 ? 2 : currentPageNo;
+    const minCurrentPageNo = currentPageNo === totalPageNo ? currentPageNo - 1 : currentPageNo;
 
     return (
-        <div className={new ClassNames(["flex", "gap-4"]).add(className).list()}>
-            <div>
+        <div
+            className={new ClassNames([
+                "flex",
+                "space-x-4",
+                "justify-between sm:justify-start",
+                "w-full"
+            ])
+                .add(className)
+                .list()}
+        >
+            <div className="flex">
                 <Button
-                    className={new ClassNames(["rounded-r-none"]).list()}
+                    className={new ClassNames(["hidden sm:flex", "sm:rounded-r-none"]).list()}
                     onClick={() => {
                         onPageClick(1);
                     }}
@@ -58,25 +69,35 @@ const PaginationBlock: FC<{
                 </Button>
             </div>
 
-            <div>
-                {pageNumbers.map((pageNo, index) => (
-                    <Button
-                        key={`pageNo-${pageNo}`}
-                        onClick={() => onPageClick(pageNo)}
-                        className={new ClassNames({
-                            "bg-blue-500": currentPageNo === pageNo,
-                            "rounded-l-none": index > 0,
-                            "rounded-r-none": index < pageNumbers.length - 1
-                        }).list()}
-                    >
-                        {pageNo}
-                    </Button>
-                ))}
+            <div className={new ClassNames(["flex", "space-x-2 sm:space-x-0"]).list()}>
+                {pageNumbers.map((pageNo, index) => {
+                    let isMobileVisible = true;
+
+                    if (pageNo < minCurrentPageNo - 1 || pageNo > maxCurrentPageNo + 1) {
+                        isMobileVisible = false;
+                    }
+                    return (
+                        <Button
+                            key={`pageNo-${pageNo}`}
+                            onClick={() => onPageClick(pageNo)}
+                            className={new ClassNames({
+                                "bg-blue-500": currentPageNo === pageNo,
+                                "sm:rounded-l-none": index > 0,
+                                "sm:rounded-r-none": index < pageNumbers.length - 1,
+                                "hidden sm:flex": !isMobileVisible
+                            })
+                                .add("w-12 justify-center")
+                                .list()}
+                        >
+                            {pageNo}
+                        </Button>
+                    );
+                })}
             </div>
 
-            <div>
+            <div className="flex">
                 <Button
-                    className={new ClassNames(["rounded-r-none"]).list()}
+                    className={new ClassNames(["sm:rounded-r-none"]).list()}
                     disabled={currentPageNo >= totalPageNo}
                     onClick={() => {
                         onPageClick(currentPageNo + 1);
@@ -85,7 +106,7 @@ const PaginationBlock: FC<{
                     Next
                 </Button>
                 <Button
-                    className={new ClassNames(["rounded-l-none"]).list()}
+                    className={new ClassNames(["hidden sm:flex", "rounded-l-none"]).list()}
                     onClick={() => {
                         onPageClick(totalPageNo);
                     }}

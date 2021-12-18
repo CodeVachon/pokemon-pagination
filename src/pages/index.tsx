@@ -40,7 +40,7 @@ const POKEMON_QUERY = gql`
 `;
 
 function Homepage() {
-    const [itemsPerPage, setItemsPerPage] = useState<number>(12);
+    const [itemsPerPage, setItemsPerPage] = useState<number>(1);
     const [pageNo, setPageNo] = useState<number>(1);
 
     const { data, loading, error, refetch } = useQuery<{
@@ -80,8 +80,9 @@ function Homepage() {
                     <div
                         className={new ClassNames([
                             "flex",
+                            "flex-col md:flex-row",
                             "justify-between items-center",
-                            "space-x-8"
+                            "md:space-x-8 space-y-4 md:space-y-0"
                         ]).list()}
                     >
                         <PaginationBlock
@@ -91,8 +92,9 @@ function Homepage() {
                             currentPageNo={pageNo}
                             totalPageNo={Math.ceil(data.countPokemon / itemsPerPage)}
                         />
-                        <div>
+                        <div className={"w-full md:w-auto"}>
                             <SelectBox
+                                className={"w-full md:w-auto"}
                                 value={itemsPerPage}
                                 onChange={(value) => {
                                     setPageNo(1);
